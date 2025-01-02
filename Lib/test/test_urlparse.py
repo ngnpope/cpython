@@ -1261,6 +1261,11 @@ class UrlParseTestCase(unittest.TestCase):
                                                           errors="ignore")
         self.assertEqual(result, [('key', '\u0141-')])
 
+    def test_parse_qs_max_num_fields(self):
+        with self.assertRaises(ValueError):
+            urllib.parse.parse_qsl('&'.join(['a=a']*11), max_num_fields=10)
+        urllib.parse.parse_qsl('&'.join(['a=a']*10), max_num_fields=10)
+
     def test_parse_qsl_max_num_fields(self):
         with self.assertRaises(ValueError):
             urllib.parse.parse_qsl('&'.join(['a=a']*11), max_num_fields=10)
